@@ -27,8 +27,6 @@ services:
       dockerfile: Dockerfile
     networks:
       - development
-    expose:
-      - "9000"
     volumes:
       # Expose the same local folders nginx sees to render php content.
       - $NGINX_HTML:/var/www/html/:rw
@@ -39,8 +37,6 @@ services:
     env_file: mysql.env # this has a environment variable that defines the root password.
     networks:
       - development
-    expose:
-      - "3306"
     ports:
       - "3306:3306"
     volumes:
@@ -52,8 +48,6 @@ services:
     image: redis:3.2-alpine
     networks:
       - development
-    expose:
-      - "6379"
     ports:
       - "6379:6379"
 networks:
