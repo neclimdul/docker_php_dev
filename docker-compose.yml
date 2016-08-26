@@ -11,7 +11,7 @@ services:
       - "443:443"
     volumes:
       # Expose local folder to nginx to serve static bits.
-      - $NGINX_HTML:/var/www/html/:ro
+      - $DOCUMENT_ROOT:/var/www/html/:ro
       # Expose configuration to nginx.
       - $NGINX_DIR/sites-enabled:/etc/nginx/conf.d:ro
       - $NGINX_DIR/sites-available:/etc/nginx/sites-available:ro
@@ -29,7 +29,7 @@ services:
       - development
     volumes:
       # Expose the same local folders nginx sees to render php content.
-      - $NGINX_HTML:/var/www/html/:rw
+      - $DOCUMENT_ROOT:/var/www/html/:rw
     links:
       - db
   db:
