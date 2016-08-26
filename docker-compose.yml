@@ -41,9 +41,9 @@ services:
       - "3306:3306"
     volumes:
       # Expose data directory for persistent databases.
-      - /var/lib/mysql:/var/lib/mysql:rw
+      - $MYSQL_DATA:/var/lib/mysql:rw
       # Expose socket directory for easier connections.
-      - /var/run/mysqld/:/var/run/mysqld/:rw
+      - $MYSQL_SOCKET:/var/run/mysqld/:rw
   redis:
     image: redis:3.2-alpine
     networks:
