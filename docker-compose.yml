@@ -1,0 +1,41 @@
+nginx:
+  # Alpine is a super small linux distro designed for containers.
+  image: nginx:stable-alpine
+  net: development
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    # Expose local folder to nginx to serve static bits.
+    - /var/www/html/:/var/www/html/:ro
+    # Expose configuration to nginx.
+    - /etc/nginx/sites-enabled:/etc/nginx/conf.d:ro
+    - /etc/nginx/sites-available:/etc/nginx/sites-available:ro
+    - /etc/nginx/snippets:/etc/nginx/snippets:ro
+  links:
+    - fpm
+fpm:
+  # This is built locally right now. The main docker php image doesn't have any
+  # extensions installed. Its really easy to customize though.
+  image: jgilliland/apqc-docker-php:5.6
+  net: development
+  expose:
+    - "9000"
+  volumes:
+    # Expose the same local folders nginx sees to render php content.
+    - /var/www/html/:/var/www/html/:rw
+  links:
+    - mysql
+mysql:
+  image: mariadb:10.1
+  env_file: mysql.env # this has a environment variable that defines the root password.
+  net: development
+  expose:
+    - "3306"
+  ports:
+    - "3306"
+  volumes:
+    # Expose data directory for persistent databases.
+    - /var/lib/mysql:/var/lib/mysql:rw
+    # Expose socket directory for easier connections.
+    - /var/run/mysqld/:/var/run/mysqld/:rw
