@@ -9,7 +9,9 @@ https://www.docker.com/products/overview
 
 Next you'll need to grab docker-compose https://docs.docker.com/compose/install/
 
-Next its as almost as easy as running `docker-compose -f docker-compose.yml` expect we'll need to tell it where to store and find some persistent files on your machine.
+Next its as almost as easy as running `docker-compose -f docker-compose.yml up` expect we'll need to tell it where to store and find some persistent files on your machine. You will need to provide some environment variables to the script to make it work though.
+
+And example script is provided in `start.sh` which sets some sane defaults on a Ubuntu operating system.
 
 ## Environment variables
 ### PHP_TAG
@@ -27,3 +29,10 @@ https://hub.docker.com/_/mariadb/
 
 ### MYSQL_SOCKET
 Connecting to the mysql port can be problematic. This provides a location where the socket file can be stored and provides a way to directly connect to the server and run queries.
+
+## Notes
+### Rebuilding the FPM container
+The first time you run each version PHP a container will be built. However you'll probably want to rebuild it from time to time to get the latest version of php, etc. To do this you will need to provide all you environment variables and run `docker-composer -f docker-compose.yml build`
+
+### Configuring PHP
+If you need to configure some php settings specific to your environment you can edit the conf/php.ini file in either taged directory and rebuild the container. The updated file will then be used by php in your container going forward.
