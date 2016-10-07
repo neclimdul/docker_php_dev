@@ -5,4 +5,19 @@ export NGINX_DIR=${NGINX_DIR:-"/etc/nginx"}
 export MYSQL_DATA=${MYSQL_DATA:-"/var/lib/mysql"}
 export MYSQL_SOCKET=${MYSQL_SOCKET:-"/var/run/mysqld"}
 
-docker-compose -f docker-compose.yml up
+COMPOSE="docker-compose -f docker-compose.yml"
+
+while [[ $# -ge 1 ]]; do
+    key="$1"
+    case $key in
+        -b|--build)
+        $COMPOSE build
+        ;;
+
+        -p|--pull)
+        $COMPOSE pull
+        ;;
+    esac
+    shift # past argument or value
+done
+$COMPOSE up
