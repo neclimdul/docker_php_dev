@@ -12,6 +12,10 @@ RUN apk -U upgrade && apk add \
     && apk add yaml-dev \
     && pecl install yaml \
     && docker-php-ext-enable yaml \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && pecl install apcu-4.0.11 \
     && docker-php-ext-enable apcu \
     && apk del autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
