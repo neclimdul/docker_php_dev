@@ -8,7 +8,7 @@ RUN apk -U upgrade && apk add \
 	  libltdl \
 	  libmcrypt-dev \
 	  libpng-dev \
-    && docker-php-ext-install iconv mcrypt mbstring mysqli mysqlnd pdo pdo_mysql opcache gd \
+    && docker-php-ext-install iconv mcrypt mbstring mysqli mysqlnd pdo pdo_mysql opcache gd bcmath zip \
     && apk add yaml-dev \
     && pecl install yaml-beta \
     && docker-php-ext-enable yaml \
