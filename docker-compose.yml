@@ -52,5 +52,14 @@ services:
       - development
     ports:
       - "6379:6379"
+#  solr:
+#    image: actency/docker-solr:3.6
+#    networks:
+#      - development
+#    ports:
+#      - "8983:8983"
+#    volumes:
+#      - $SOLR_DATA:/opt/solr/example/solr/data
+#      - $SOLR_CONFIG:/opt/solr/example/solr/conf/
 networks:
   development:
