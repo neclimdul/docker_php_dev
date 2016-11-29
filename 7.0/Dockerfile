@@ -10,7 +10,7 @@ RUN apk -U upgrade && apk add \
 	  libpng-dev \
     && docker-php-ext-install iconv mcrypt mbstring mysqli mysqlnd pdo pdo_mysql opcache gd bcmath zip \
     && apk add yaml-dev \
-    && pecl install yaml-beta \
+    && pecl install yaml-2.0.0 \
     && docker-php-ext-enable yaml \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
