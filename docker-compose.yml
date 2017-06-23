@@ -30,6 +30,8 @@ services:
     volumes:
       # Expose the same local folders nginx sees to render php content.
       - $DOCUMENT_ROOT:/var/www/html/:rw
+      # Allow customizations without rebuilding images
+      - ./$PHP_TAG/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
     links:
       - db
   db:

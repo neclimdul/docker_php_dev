@@ -1,14 +1,16 @@
 FROM php:7.1-fpm-alpine
 COPY config/php.ini /usr/local/etc/php/
 RUN apk -U upgrade && apk add \
-	  autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
+	  autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp-dev libgomp \
 	  coreutils \
 	  freetype-dev \
 	  libjpeg-turbo-dev \
 	  libltdl \
 	  libmcrypt-dev \
 	  libpng-dev \
-    && docker-php-ext-install iconv mcrypt mbstring mysqli mysqlnd pdo pdo_mysql opcache gd gmp bcmath zip \
+          freetds-dev \
+    && docker-php-ext-install iconv mcrypt mbstring pdo pdo_mysql pdo_dblib opcache gd gmp bcmath zip \
+    && docker-php-ext-enable pdo_dblib gmp \
     && apk add yaml-dev \
     && pecl install yaml-2.0.0 \
     && docker-php-ext-enable yaml \

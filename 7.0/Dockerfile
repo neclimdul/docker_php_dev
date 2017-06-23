@@ -1,14 +1,14 @@
 FROM php:7.0-fpm-alpine
 COPY config/php.ini /usr/local/etc/php/
-RUN apk -U upgrade && apk add \
-	  autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
-	  coreutils \
-	  freetype-dev \
-	  libjpeg-turbo-dev \
-	  libltdl \
-	  libmcrypt-dev \
-	  libpng-dev \
-    && docker-php-ext-install iconv mcrypt mbstring mysqli mysqlnd pdo pdo_mysql opcache gd gmp bcmath zip \
+RUN buildDeps="autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp-dev yaml-dev libmcrypt-dev libjpeg-turbo-dev libpng-dev libgomp coreutils wget" \
+  && apk -U add $buildDeps \
+          libltdl \
+          libmcrypt \
+          libjpeg-turbo \
+          libpng \
+          gmp \
+          yaml \
+    && docker-php-ext-install iconv mcrypt mbstring mysqli pdo pdo_mysql opcache gd gmp bcmath zip \
     && apk add yaml-dev \
     && pecl install yaml-2.0.0 \
     && docker-php-ext-enable yaml \
@@ -18,6 +18,7 @@ RUN apk -U upgrade && apk add \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && apk del autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
+    && touch /usr/local/etc/php/conf.d/extra.ini \
+    && apk del $buildDeps \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*

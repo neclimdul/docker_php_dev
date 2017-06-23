@@ -1,13 +1,11 @@
 FROM php:5.6-fpm-alpine
 COPY config/php.ini /usr/local/etc/php/
-RUN apk -U upgrade && apk add \
-	  autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
-	  coreutils \
-	  freetype-dev \
-	  libjpeg-turbo-dev \
-	  libltdl \
-	  libmcrypt-dev \
-	  libpng-dev \
+ENV buildDeps "autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp-dev libgomp coreutils freetype-dev libjpeg-turbo-dev libmcrypt-dev libpng-dev"
+RUN apk -U add $buildDeps \
+      libmcrypt \
+      libjpeg-turbo \
+      libpng \
+      gmp \
     && docker-php-ext-install iconv mcrypt mbstring mysqli pdo pdo_mysql gd gmp bcmath zip \
     && apk add yaml-dev \
     && pecl install yaml \
@@ -18,6 +16,6 @@ RUN apk -U upgrade && apk add \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && pecl install apcu-4.0.11 \
     && docker-php-ext-enable apcu \
-    && apk del autoconf file g++ gcc binutils isl libatomic libc-dev musl-dev make re2c libstdc++ libgcc binutils-libs mpc1 mpfr3 gmp libgomp \
+    && apk del $buildDeps \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
